@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap');
+
+
+
+
+.main-content-container{
+    display: flex;
+}
+
+.text-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 90vh;
+}
+
+.img-container{
+    display: flex;
+    height: 550px;
+    width: 40%;
+    margin-left: 120px;
+}
+
+h1{
+    margin: 10px; 
+    font-family: 'Fredoka', sans-serif; 
+}
+
+h2{
+    margin: 10px 10px 50px 10px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+}
+
+p{
+    font-size: larger;
+    font-family: 'Manrope', sans-serif;
+}
