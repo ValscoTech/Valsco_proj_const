@@ -12,6 +12,7 @@ import Signup from "./components/Signup";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import CarEmission from "./components/CarEmission";
 import { DataProvider } from "./context/DataContext";
+import Household from "./components/HouseHold";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
             <Route path="/signup" exact element={<Signup />} />
             <Route path="/carform" exact element={<Form />} />
             <Route path="/caremission" exact element={<CarEmission />} />
+            
+            <Route path="/house" exact element={<Household />} />
           </Routes>
         </UserAuthContextProvider>
       </DataProvider>
