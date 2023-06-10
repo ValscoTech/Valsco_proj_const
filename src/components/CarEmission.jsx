@@ -2,13 +2,49 @@ import { Line } from "@ant-design/charts";
 import "./CarEmission.css";
 import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
+import { useEffect,useState } from "react";
 
 const CarEmission = () => {
-    const { co2data, updateData } = useContext(DataContext);
-    console.log('printing recieved data');
-    console.log(co2data);
+    const { co2data } = useContext(DataContext);
+    
+    let [data,setData] = useState([
+      { year: "Day1", value: 3 },
+      { year: "Day2", value: 4 },
+      { year: "Day3", value: 3.5 },
+      { year: "Day4", value: 5 },
+      { year: "Day5", value: 4.9 },
+      { year: "Day6", value: 6 },
+      { year: "Day7", value: 7 },
+      { year: "Day8", value: 9 },
+      { year: "Day9", value: 13 },
+    ]);
 
-  const data = [
+    useEffect(()=>{
+      console.log('printing recieved data');
+      console.log(co2data);
+      if (co2data.co2emission) {
+        let dt = [];  
+        for (let i = 0; i < co2data.co2emission.length; i++) {
+          let d = {
+            year: "Day"+i+1,
+            value: co2data.co2emission[i] 
+          }
+          dt.push(d);
+        }
+        setData(dt);    
+      }
+     
+    },[co2data]);
+  /*let data = [];  
+  for (let i = 0; i < co2data.co2emission.length; i++) {
+    let d = {
+      year: "Day"+i+1,
+      value: co2data.co2emission[i] 
+    }
+    data.push(d);
+  }
+  console.log(data);*/
+  /*const data = [
     { year: "Day1", value: 3 },
     { year: "Day2", value: 4 },
     { year: "Day3", value: 3.5 },
@@ -18,7 +54,7 @@ const CarEmission = () => {
     { year: "Day7", value: 7 },
     { year: "Day8", value: 9 },
     { year: "Day9", value: 13 },
-  ];
+  ];*/
   const config = {
     data,
     height: 400,

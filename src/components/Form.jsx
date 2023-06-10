@@ -78,6 +78,7 @@ const Form = () => {
         },
       })
       .then((response) => {
+        //return response.json();
         updateData(response.data);
       })
       .catch((error) => {

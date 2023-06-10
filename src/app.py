@@ -7,7 +7,15 @@ import pymongo
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import numpy as np
-
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+import pickle
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+import warnings
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 CORS(app)
@@ -29,17 +37,29 @@ def model():
 
         # Create a DataFrame from the JSON object
         df = pd.DataFrame(jsonObj, index=[0])
-        make_dict=pd.read_csv("xywencoded_dict.csv")
-        vehicle_class_dict=pd.read_csv("vehicle_class.csv")
-        model_dict=pd.read_csv("model_actual.csv")
+    
+
+        # make_dict=pd.read_csv("xywencoded_dict.csv")
+        # vehicle_class_dict=pd.read_csv("vehicle_class.csv")
+        # model_dict=pd.read_csv("model_actual.csv")
+
+        make_dict = pd.read_csv('xywencoded_dict.csv').set_index('make').to_dict()['Encoded_Value']
+        vehicle_class_dict = pd.read_csv('vehicle_class.csv').set_index('vehicle_class').to_dict()['Encoded_Value']
+        model_dict = pd.read_csv('model_actual.csv').set_index('model').to_dict()['Encoded_Value']
+
         print(1)
+        # return jsonify({{"day": "day1", "co2emission": 196}, {"day": "day2", "co2emission": 221}, {"day": "day2", "co2emission": 136}, {"day": "day3", "co2emission": 255}, {"day": "day4", "co2emission": 244}, {"day": "day5", "co2emission": 230}, {"day": "day6", "co2emission": 222}, {"day": "day7", "co2emission": 212}, {"day": "day8", "co2emission": 256}, {"day": "day9", "co2emission": 354}, {"day": "day10", "co2emission": 230}})
         # Encode the categorical columns using the dictionaries
-        a = df['Make'].map(make_dict)
-        b = df['Vehicle Class'].map(vehicle_class_dict)
-        df['Model'] = df['Model'].map(model_dict)
+        # a = df['Make'].map(make_dict)
+        a=make_dict[df['make'].values[0]]
+        print(a)
+        b = vehicle_class_dict[df['vehicle_class'].values[0]]
+        # df['model'] = df['model'].map(model_dict)
 
         # Encode the 'Model' column using the label encoder
-        c = label_encoder.transform(df['Model'])
+        print(100)
+        label_encoder = LabelEncoder()
+        c = model_dict[df['model'].values[0]]
 
         l=df.loc[df.index==0]
 
@@ -50,12 +70,18 @@ def model():
         print(2)
         # Make predictions on the new data
         filename='file.pkl'
-        loaded_model = pickle.load(open(filename, 'rb'))
-        predicted_emission=loaded_model.predict(feat)
-        
+        print(5)
+        # loaded_model = pickle.load(open(filename, 'rb'))
+        predicted_emission = 0
+        with open('file.pkl', 'rb') as file:
+            loaded_clf = pickle.load(file)
+            predicted_emission=loaded_clf.predict(feat)
+        print(predicted_emission)
+        print(3)
 
         #-----------Database Return Value---------------------
-        database_value={"useremail":list(content.value())[0],"co2emission":predicted_emission}
+        database_value={"useremail":list(jsonObj.values())[0],"co2emission":int(predicted_emission)}
+        print(database_value)
         # --------------------------------------------------Database code------------------------------------------------------
         client=pymongo.MongoClient("mongodb+srv://aman:1234@cluster0.fundjn6.mongodb.net/?retryWrites=true&w=majority")
         db=client['Emission']
@@ -75,7 +101,7 @@ def model():
         print(3)
         return_value={"co2emission":ten_emission}
         print(return_value)
-        return jsonify({"test": 123})
+        return jsonify(return_value)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
