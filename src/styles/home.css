@@ -202,9 +202,11 @@ background: #F3F3F3;
 
 
     .one-left{
-        width: 50%;
+        width: 100%;
         display: flex;
+        float: left;
         flex-direction: row;
+        margin-right: 10px;
         height: 144.179px;
         p{
             width: 316px;
@@ -215,22 +217,27 @@ flex-shrink: 0;
     }
     .two-right{
         display: flex;
+        float: left;
         flex-direction: row;
-        width: 50%;
+        width: 100%;
         height: 144.179px;
 
     }
 
     .one{
         display: flex;
+  float: left;
 width: 104px;
 height: 144.179px;
 flex-direction: column;
 justify-content: center;
 flex-shrink: 0;
+
+
     }
     .two{
         display: flex;
+        float: left;
 width: 104px;
 height: 144.179px;
 flex-direction: column;
@@ -342,6 +349,18 @@ flex-shrink: 0;
       width: auto;
       height: 200px;
     }
+    .project{
+      .img6{
+        left: -1%;
+      }
+   }
+
+   .info{
+    .two{
+      margin-top: 65px;
+    }
+   }
+    
   }
 
 
@@ -456,12 +475,13 @@ flex-shrink: 0;
     }
   
     .info .one-left p {
-      width: 100%;
+      width: 70%;
       height: auto;
+     
     }
   
     .one, .two {
-      width: auto;
+      width: 100%;
       height: auto;
       margin-right: 10px;
       margin-left: 10px;
@@ -516,6 +536,7 @@ flex-shrink: 0;
 
   .one, .two {
     width: 100%;
+
   }
 }
 
