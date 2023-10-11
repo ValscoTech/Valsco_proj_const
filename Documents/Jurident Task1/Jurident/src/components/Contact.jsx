@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { Facebook, Twitter, Instagram } from '@mui/icons-material';
+import { Facebook, Twitter, Instagram } from "@mui/icons-material";
 
 export const Contact = () => {
   const [firstName, setFirstName] = useState("");
@@ -15,8 +15,31 @@ export const Contact = () => {
   const [enquiryType, setEnquiryType] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = fetch(
+      "https://demobase-75093-default-rtdb.firebaseio.com/contactInfo.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          enquiryType,
+          message
+        })
+      }
+    );
+
+    if(res){
+      alert('data sumitted')
+    }else{
+      alert('fill data')
+    }
     // Perform any form submission logic here
     console.log("Form submitted with data:", {
       firstName,
@@ -39,10 +62,13 @@ export const Contact = () => {
             <form onSubmit={handleSubmit} className="form">
               <div className="form-row">
                 <div className="form-left">
-                  <label className='dark:text-white' htmlFor="firstName">First Name</label>
+                  <label className="dark:text-white" htmlFor="firstName">
+                    First Name
+                  </label>
                   <input
                     type="text"
                     id="firstName"
+                    name="firstName"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
@@ -51,10 +77,13 @@ export const Contact = () => {
                   />
                 </div>
                 <div className="form-right">
-                  <label className='dark:text-white' htmlFor="lastName">Last Name</label>
+                  <label className="dark:text-white" htmlFor="lastName">
+                    Last Name
+                  </label>
                   <input
                     type="text"
                     id="lastName"
+                    name="lastName"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
@@ -66,10 +95,13 @@ export const Contact = () => {
 
               <div className="form-row">
                 <div className="form-left">
-                  <label className='dark:text-white' htmlFor="email">Email</label>
+                  <label className="dark:text-white" htmlFor="email">
+                    Email
+                  </label>
                   <input
                     type="email"
                     id="Email"
+                    name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -78,10 +110,13 @@ export const Contact = () => {
                   />
                 </div>
                 <div className="form-right">
-                  <label className='dark:text-white' htmlFor="mobilenumber">Mobile Number</label>
+                  <label className="dark:text-white" htmlFor="mobilenumber">
+                    Mobile Number
+                  </label>
                   <input
                     type="tele"
                     id="mobilenumber"
+                    name="phoneNumber"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required
@@ -92,7 +127,8 @@ export const Contact = () => {
               </div>
 
               <div className="form-row">
-                <label className='dark:text-white'
+                <label
+                  className="dark:text-white"
                   style={{ width: "100%", margin: "5px", marginBottom: "10px" }}
                 >
                   Select Query
@@ -109,7 +145,13 @@ export const Contact = () => {
                       required
                       className="border-[0] border-b border-solid border-black dark:border-white dark:caret-white dark:text-white"
                     />
-                    <label className='dark:text-white' htmlFor="enquiryTypeGeneral"> General</label>
+                    <label
+                      className="dark:text-white"
+                      htmlFor="enquiryTypeGeneral"
+                    >
+                      {" "}
+                      General
+                    </label>
                   </div>
                   <div>
                     <input
@@ -122,7 +164,12 @@ export const Contact = () => {
                       required
                       className="border-[0] border-b border-solid border-black dark:border-white dark:caret-white dark:text-white"
                     />
-                    <label className='dark:text-white' htmlFor="enquiryTypeSupport">Support</label>
+                    <label
+                      className="dark:text-white"
+                      htmlFor="enquiryTypeSupport"
+                    >
+                      Support
+                    </label>
                   </div>
                   <div>
                     <input
@@ -135,16 +182,20 @@ export const Contact = () => {
                       required
                       className="border-[0] border-b border-solid border-black dark:border-white dark:caret-white dark:text-white"
                     />
-                    <label className='dark:text-white' htmlFor="enquiryTypeCollaboration">
+                    <label
+                      className="dark:text-white"
+                      htmlFor="enquiryTypeCollaboration"
+                    >
                       Collaboration
                     </label>
                   </div>
-                  
                 </div>
               </div>
 
               <div className="form-row">
-                <label className='dark:text-white' htmlFor="message">Message</label>
+                <label className="dark:text-white" htmlFor="message">
+                  Message
+                </label>
                 <textarea
                   id="message"
                   value={message}
@@ -155,12 +206,17 @@ export const Contact = () => {
                 />
               </div>
               <div className="form-row">
-                <button className='dark:bg-white dark:text-black dark:font-semibold' type="submit">Send Message</button>
+                <button
+                  className="dark:bg-white dark:text-black dark:font-semibold"
+                  type="submit"
+                >
+                  Send Message
+                </button>
               </div>
             </form>
           </div>
           <div className="right">
-            <img className='contact-bg' src={bg} />
+            <img className="contact-bg" src={bg} />
             <div className="details">
               <h2>Contact Information</h2>
               <p>Say something to chat!</p>
