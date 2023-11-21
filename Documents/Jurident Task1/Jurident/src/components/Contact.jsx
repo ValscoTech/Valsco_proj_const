@@ -6,6 +6,7 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Facebook, Twitter, Instagram } from '@mui/icons-material';
+import { addinfo } from "./ContactFunctions";
 
 export const Contact = () => {
   const [firstName, setFirstName] = useState("");
@@ -15,18 +16,38 @@ export const Contact = () => {
   const [enquiryType, setEnquiryType] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform any form submission logic here
-    console.log("Form submitted with data:", {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      enquiryType,
-      message,
-    });
-  };
+		// Perform any form submission logic here
+		try {
+			await addinfo(
+				firstName,
+				lastName,
+				email,
+				phoneNumber,
+				enquiryType,
+				message
+			);
+			setFirstName("");
+			setLastName("");
+			setEmail("");
+			setPhoneNumber("");
+			setEnquiryType("");
+			setMessage("");
+		} catch (e) {
+			console.log("Error calling Firebase function: ", e);
+		}
+
+		// Logging the information
+		// console.log("Form submitted with data:", {
+		// 	firstName,
+		// 	lastName,
+		// 	email,
+		// 	phoneNumber,
+		// 	enquiryType,
+		// 	message,
+		// });
+	};
   return (
     <div>
       <div className="title dark:text-white">Contact Us</div>
